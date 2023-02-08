@@ -30,5 +30,5 @@ pub fn value_to_color_string(value: usize) -> String {
 }
 
 pub fn colors() -> Vec<ResistorColor> {
-    all::<ResistorColor>().collect::<Vec<_>>()
+    all().collect()
 }
