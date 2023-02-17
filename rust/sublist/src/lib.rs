@@ -13,9 +13,27 @@ pub fn sublist<T: PartialEq>(first_list: &[T], second_list: &[T]) -> Comparison 
         (0, 0) => Equal,
         (0, _) => Sublist,
         (_, 0) => Superlist,
-        (l0, l1) if l0 > l1 => if first_list.windows(l1).any(|w| w == second_list) {Superlist} else {Unequal},
-        (l0, l1) if l0 < l1 => if second_list.windows(l0).any(|w| w == first_list) {Sublist} else {Unequal},
-        (_, _) => if first_list == second_list {Equal} else {Unequal},
+        (l0, l1) if l0 > l1 => {
+            if first_list.windows(l1).any(|w| w == second_list) {
+                Superlist
+            } else {
+                Unequal
+            }
+        }
+        (l0, l1) if l0 < l1 => {
+            if second_list.windows(l0).any(|w| w == first_list) {
+                Sublist
+            } else {
+                Unequal
+            }
+        }
+        (_, _) => {
+            if first_list == second_list {
+                Equal
+            } else {
+                Unequal
+            }
+        }
     };
 }
 
