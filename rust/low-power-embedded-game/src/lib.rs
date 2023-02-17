@@ -3,9 +3,11 @@ pub fn divmod(dividend: i16, divisor: i16) -> (i16, i16) {
 }
 
 pub fn evens<T>(iter: impl Iterator<Item = T>) -> impl Iterator<Item = T> {
-    iter.enumerate()
-        .filter(|(i, _)| i % 2 == 0)
-        .map(|(_, val)| val)
+    iter.step_by(2)
+
+    // iter.enumerate()
+    //     .filter(|(i, _)| i % 2 == 0)
+    //     .map(|(_, val)| val)
 }
 
 pub struct Position(pub i16, pub i16);
