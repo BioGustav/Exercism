@@ -1,5 +1,3 @@
-use std::ops::Add;
-
 #[derive(Debug)]
 pub enum CalculatorInput {
     Add,
@@ -12,24 +10,21 @@ pub enum CalculatorInput {
 pub fn evaluate(inputs: &[CalculatorInput]) -> Option<i32> {
     use CalculatorInput::*;
     let mut stack: Vec<i32> = vec![];
-    for i in inputs {
-        match (i, stack.len()) {
-            (Value(value), _) => stack.push(*value),
-            (command, len) if len >= 2 => {
-                if let (Some(rhs), Some(lhs)) = (stack.pop(), stack.pop()) {
-                    if let Some(result) = match command {
-                        Add => Some(lhs + rhs),
-                        Subtract => Some(lhs - rhs),
-                        Multiply => Some(lhs * rhs),
-                        Divide => Some(lhs / rhs),
-                        _ => None,
-                    } {
-                        stack.push(result);
-                    };
-                }
-            }
-            (_, _) => return None,
+    for input in inputs {
+        if let Value(v) = input {
+            stack.push(v.clone());
+            continue;
+        }
+        let rhs = stack.pop()?;
+        let lhs = stack.pop()?;
+        let result = match input {
+            Add => lhs + rhs,
+            Subtract => lhs - rhs,
+            Multiply => lhs * rhs,
+            Divide => lhs / rhs,
+            _ => panic!("Invalid state!"),
         };
+        stack.push(result);
     }
     if stack.len() == 1 {
         stack.pop()
