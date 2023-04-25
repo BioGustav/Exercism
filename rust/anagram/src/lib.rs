@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-pub fn anagrams_for<'a>(word: &str, possible_anagrams: &'a [&str]) -> HashSet<&'a str> {
+pub fn anagrams_for<'a>(word: &str, possible_anagrams: &[&'a str]) -> HashSet<&'a str> {
     let word = word.to_lowercase();
 
     let mut w_sorted = word.chars().collect::<Vec<char>>();
@@ -8,7 +8,6 @@ pub fn anagrams_for<'a>(word: &str, possible_anagrams: &'a [&str]) -> HashSet<&'
 
     possible_anagrams
         .iter()
-        .map(|a| *a)
         .filter(|possible_anagram| {
             let possible_anagram = possible_anagram.to_lowercase();
             if possible_anagram == word {
@@ -19,5 +18,6 @@ pub fn anagrams_for<'a>(word: &str, possible_anagrams: &'a [&str]) -> HashSet<&'
                 w_sorted == a_sorted
             }
         })
+        .copied()
         .collect()
 }
