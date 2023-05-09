@@ -6,23 +6,24 @@ pub fn is_valid(code: &str) -> bool {
         return false;
     }
 
-    if code.bytes().any(|b| !(b.is_ascii_digit() || b.is_ascii_whitespace())) {
+    if code
+        .bytes()
+        .any(|b| !(b.is_ascii_digit() || b.is_ascii_whitespace()))
+    {
         return false;
     }
 
     code.bytes()
-        .filter(|c| *c >= b'0')
+        .filter(|&c| c.is_ascii_digit())
         .map(|c| (c - b'0') as u32)
         .rev()
         .enumerate()
-        .map(|(i, number)| match number {
-            number if i % 2 == 1 && number < 5 => number * 2,
-            number if i % 2 == 1 => number * 2 - 9,
-            _ => number,
-        })
-        .map(|e| {
-            dbg!(e);
-            e
+        .map(|(i, number)| {
+            match number {
+                number if i % 2 == 1 && number < 5 => number * 2,
+                number if i % 2 == 1 => number * 2 - 9,
+                _ => number,
+            }
         })
         .sum::<u32>()
         % 10
