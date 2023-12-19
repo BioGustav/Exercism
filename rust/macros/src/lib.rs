@@ -1,9 +1,9 @@
 #[macro_export]
 macro_rules! hashmap {
-    () => { crate::HashMap::new() };
+    () => { ::std::collections::HashMap::new() };
     ($($k:expr => $v:expr),+$(,)?) => {
         {
-            let mut hm = crate::HashMap::new();
+            let mut hm = ::std::collections::HashMap::new();
             $(hm.insert($k, $v);)+
             hm
         }
